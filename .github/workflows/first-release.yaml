@@ -1,0 +1,36 @@
+name: First Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - catalog-info.yaml
+
+jobs:
+  env:
+    uses: pegasus-idp/.github/.github/workflows/env.yaml@main
+
+  build:
+    uses: pegasus-idp/.github/.github/workflows/build.yaml@main
+    secrets: inherit
+    with:
+      tag: ${{ needs.env.outputs.tag }}
+      repository: ${{ needs.env.outputs.repository }}
+      url: https://${{ needs.env.outputs.repository }}.sevira.cloud
+      environment: production
+    needs:
+      - env
+
+  deploy:
+    uses: pegasus-idp/.github/.github/workflows/deploy.yaml@main
+    secrets: inherit
+    with:
+      tag: ${{ needs.env.outputs.tag }}
+      repository: ${{ needs.env.outputs.repository }}
+      url: https://${{ needs.env.outputs.repository }}.sevira.cloud
+      environment: production
+    needs:
+      - env
+      - build
