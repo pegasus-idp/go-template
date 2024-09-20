@@ -17,6 +17,6 @@ metadata:
     - ${{ values.type | dump}}
     - ${{ values.lifecycle | dump}}
   links:
-    - url: https://${{values.component_id}}.pauloponciano.digital
+    - url: https://${{values.component_id}}.sevira.cloud
       title: Website
       icon: Website
